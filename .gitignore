@@ -5,9 +5,11 @@
 /.pnp
 .pnp.js
 
-# pycache
-/__pycache__
-/.pytest_cache
+# 忽略 Python 编译生成的缓存目录
+__pycache__/
+.pytest_cache/
+# 忽略单个的 .pyc 文件
+*.pyc
 
 # testing
 /coverage
