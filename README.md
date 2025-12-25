@@ -11,9 +11,9 @@ HospitalRun 是一个现代化的医院管理系统，提供完整的患者管�
 - **统计仪表盘**: 实时统计数据展示和管理概览
 
 ### 🛠️ 技术架构
-- **后端**: FastAPI + SQLAlchemy + MySQL/PostgreSQL
-- **前端**: React + Material-UI + React Router
-- **测试**: 完整的 unittest suite (pytest)
+- **后端**: FastAPI 0.104.1 + SQLAlchemy 2.0.23 + Pydantic 2.5.0 + MySQL/PostgreSQL
+- **前端**: React 19.2.1 + Material-UI v7 + React Router v7
+- **测试**: 完整的 pytest 测试套件 (211个测试用例)
 - **多语言**: 中文、日文、英文支持
 
 ### 🎯 适用场景
@@ -31,12 +31,15 @@ HospitalRun 是一个现代化的医院管理系统，提供完整的患者管�
 - **前端**:
   - Node.js 16+
   - npm 7+
+- **测试**:
+  - pytest 7.4.3+
+  - 完整的测试套件 (211个测试用例)
 
 ### 后端设置
 
 1. **安装依赖**
    ```bash
-   cd hospital/backend
+   cd backend
    pip install -r requirements.txt
    ```
 
@@ -73,7 +76,7 @@ HospitalRun 是一个现代化的医院管理系统，提供完整的患者管�
 
 4. **运行后端服务器**
    ```bash
-   cd hospital/backend
+   cd backend
    python main.py
    ```
 
@@ -85,7 +88,6 @@ HospitalRun 是一个现代化的医院管理系统，提供完整的患者管�
 
 1. **安装依赖**
    ```bash
-   cd hospital
    npm install
    ```
 
@@ -176,6 +178,17 @@ curl "http://127.0.0.1:8000/api/appointments?date_from=2024-12-01"
 
 ## 🧪 测试
 
+系统配备完整的测试套件，共包含 **211个测试用例**，覆盖模型验证、CRUD操作、API接口和业务逻辑。
+
+### 测试状态
+- **总测试数**: 211个
+- **当前通过率**: 31.8% (67个通过)
+- **Schema验证**: ✅ 100% 通过 (32个测试)
+- **模型测试**: ✅ 87.5% 通过
+- **API测试**: ❌ 需修复Pydantic v2兼容性问题
+
+> **注意**: 当前测试失败主要由于Pydantic v1/v2兼容性问题，修复后预计通过率可达96%+。
+
 ### 后端测试
 
 ```bash
@@ -190,6 +203,11 @@ bash test.sh
 # 生成覆盖率报告
 pytest --cov=. --cov-report=html
 open htmlcov/index.html
+
+# 运行特定模块测试
+pytest tests/test_schemas.py -v    # Schema验证测试
+pytest tests/test_models.py -v     # 数据库模型测试
+pytest tests/test_crud.py -v       # CRUD操作测试
 ```
 
 ### 前端测试
@@ -263,7 +281,7 @@ npm run eject
 
 ```bash
 # 热重载开发（后端）
-cd hospital/backend
+cd backend
 python main.py
 
 # 使用 uvicorn 开发服务器
@@ -272,7 +290,7 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
 ## 📊 数据库设计
 
-详细的数据库设计文档：`hospital/DATABASE_DDL.md`
+详细的数据库设计文档：`DATABASE_DDL.md`
 
 ### 核心数据模型
 
@@ -303,6 +321,22 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
 ## 🔄 更新日志
 
+### v1.1.0 (2025-12-25)
+- 🔧 **技术栈升级**
+  - 前端升级至 React 19.2.1 + Material-UI v7 + React Router v7
+  - 后端升级至 FastAPI 0.104.1 + SQLAlchemy 2.0.23 + Pydantic 2.5.0
+- 🧪 **测试套件优化**
+  - 完整的 211 个测试用例覆盖
+  - Schema 验证测试 100% 通过
+  - 识别并记录兼容性问题（待修复）
+- 📚 **文档完善**
+  - 更新技术架构版本信息
+  - 添加详细的依赖包说明
+  - 完善测试状态和使用指南
+- 🗄️ **数据库支持增强**
+  - 完善 PostgreSQL 支持文档
+  - 优化数据库 DDL 和初始化脚本
+
 ### v1.0.0 (2024-12-10)
 - ✨ 初始发布
 - 🏥 完整的医院管理系统
@@ -312,7 +346,29 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
 ## 🙏 致谢
 
+### 核心框架
 - [FastAPI](https://fastapi.tiangolo.com/) - 高性能 Web 框架
 - [React](https://reactjs.org/) - 用户界面库
-- [Material-UI](https://mui.com/) - React 组件库
-- [SQLAlchemy](https://www.sqlalchemy.org/) - Python ORM
+- [Material-UI](https://mui.com/) - React 组件库 (v7)
+- [SQLAlchemy](https://www.sqlalchemy.org/) - Python ORM (v2.0+)
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - 数据验证和序列化 (v2.5+)
+
+### 前端生态
+- [React Router](https://reactrouter.com/) - 客户端路由 (v7)
+- [@mui/x-date-pickers](https://mui.com/x/react-date-pickers/) - 日期选择器组件
+- [Axios](https://axios-http.com/) - HTTP 客户端
+- [date-fns](https://date-fns.org/) - 日期操作工具
+
+### 后端生态
+- [Uvicorn](https://www.uvicorn.org/) - ASGI 服务器
+- [python-multipart](https://github.com/andrew-d/python-multipart) - 多部分表单处理
+- [python-jose](https://github.com/mpdavis/python-jose) - JWT 处理
+- [passlib](https://passlib.readthedocs.io/) - 密码哈希
+- [python-decouple](https://github.com/henriquebastos/python-decouple) - 配置管理
+
+### 测试工具
+- [pytest](https://pytest.org/) - 测试框架 (v7.4+)
+- [pytest-asyncio](https://github.com/pytest-dev/pytest-asyncio) - 异步测试支持
+- [httpx](https://www.python-httpx.org/) - 异步 HTTP 客户端
+- [pytest-cov](https://pytest-cov.readthedocs.io/) - 覆盖率报告
+- [Faker](https://faker.readthedocs.io/) - 测试数据生成
